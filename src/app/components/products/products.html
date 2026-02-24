@@ -1,0 +1,119 @@
+
+
+<div class="shop-container py-4 px-5">
+  <div class="d-flex justify-content-between align-items-end mb-4">
+    <div>
+      <div class="text-muted small mb-2">Dashboard > Inventory > Products</div>
+      <h2 class="fw-bold mb-0">Inventory</h2>
+    </div>
+
+    <div class="total-price-display">
+      Total Price: <span class="fw-bold text-success">${{ totalPrice | number: '1.2-2' }}</span>
+    </div>
+  </div>
+
+  <div class="filter-bar-container d-flex flex-wrap align-items-center gap-3 mb-4">
+    <!-- Category Filter -->
+    <div class="dropdown-wrapper">
+      <button
+        class="filter-pill"
+        (click)="toggleDropdown('category', $event)"
+        [class.active]="activeDropdown === 'category'"
+      >
+        <i class="bi bi-collection"></i>
+        <span>{{ selectedCategory }}</span>
+        <i class="bi bi-chevron-down ms-2"></i>
+      </button>
+
+      @if (activeDropdown === 'category') {
+        <div class="dropdown-menu-custom shadow-sm" (click)="$event.stopPropagation()">
+          @for (cat of categories; track cat) {
+            <label class="dropdown-item-custom">
+              <input
+                type="radio"
+                name="categoryGroup"
+                [checked]="selectedCategory === cat"
+                (change)="selectCategory(cat)"
+              />
+              <span class="custom-radio"></span>
+              <span class="item-text">{{ cat }}</span>
+            </label>
+          }
+        </div>
+      }
+    </div>
+    <div class="dropdown-wrapper">
+      <button
+        class="filter-pill"
+        (click)="toggleDropdown('price', $event)"
+        [class.active]="activeDropdown === 'price'"
+      >
+        <i class="bi bi-tag"></i>
+        <span>{{ selectedPrice }}</span>
+        <i class="bi bi-chevron-down ms-2"></i>
+      </button>
+
+      @if (activeDropdown === 'price') {
+        <div class="dropdown-menu-custom shadow-sm" (click)="$event.stopPropagation()">
+          @for (price of prices; track price) {
+            <label class="dropdown-item-custom">
+              <input
+                type="radio"
+                name="priceGroup"
+                [checked]="selectedPrice === price"
+                (change)="selectPrice(price)"
+              />
+              <span class="custom-radio"></span>
+              <span class="item-text">{{ price }}</span>
+            </label>
+          }
+        </div>
+      }
+    </div>
+  </div>
+  <div class="products-grid">
+    @for (p of filteredProducts; track p.id) {
+      <div class="artisan-card" appCardHover>
+        <div class="image-box">
+          <img [src]="p.image" class="card-img-top" [alt]="p.name" />
+        </div>
+
+        <div class="card-body">
+          <h5 class="fw-bold">{{ p.name }}</h5>
+
+          <p class="text-muted small mb-3">
+            @if (!p.showFullDesc) {
+              {{ p.description | threeWords }}...
+              <span
+                class="text-primary pointer"
+                style="cursor: pointer"
+                (click)="p.showFullDesc = true"
+                >read more</span
+              >
+            } @else {
+              {{ p.description }}
+              <span
+                class="text-primary pointer"
+                style="cursor: pointer"
+                (click)="p.showFullDesc = false"
+                >show less</span
+              >
+            }
+          </p>
+
+          <div class="mt-auto d-flex justify-content-between align-items-center pt-3 border-top">
+            <span class="fw-bold">${{ p.price }}</span>
+
+            <button
+              class="btn btn-sm"
+              [ngClass]="p.isBought ? 'btn-success' : 'btn-dark'"
+              (click)="toggleBuy(p)"
+            >
+              {{ p.isBought ? '✓ Added' : 'Buy' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

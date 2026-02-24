@@ -1,0 +1,31 @@
+<div class="ecom-slider-container">
+  <div class="slider-track" [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
+    @for (item of items; track item.id) {
+      <div class="slider-item">
+        <div class="image-wrapper">
+          <img [src]="item.image" [alt]="item.title" loading="lazy" />
+          <div class="overlay-gradient"></div>
+        </div>
+
+        <div class="slide-content container">
+          <h5>{{ item.subtitle }}</h5>
+          <h1>{{ item.title }}</h1>
+          <button class="shop-btn">{{ item.buttonText }}</button>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="dots-container">
+    @for (item of items; track item.id; let i = $index) {
+      <span
+        class="dot"
+        [class.active]="i === currentIndex"
+        (click)="goToSlide(i)"
+        role="button"
+        [attr.aria-label]="'Go to slide ' + (i + 1)"
+      >
+      </span>
+    }
+  </div>
+</div>
