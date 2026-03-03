@@ -1,0 +1,389 @@
+/* ============================================
+   BASE
+============================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:host {
+  display: block;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: #fff;
+  color: #1a1a1a;
+  min-height: 100vh;
+}
+
+/* ============================================
+   PAGE CONTAINER
+============================================ */
+.page-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 40px 80px;
+}
+
+/* ============================================
+   ROLE TOGGLE
+============================================ */
+.role-toggle-wrapper {
+  margin-bottom: 40px;
+}
+
+.role-toggle {
+  display: inline-flex;
+  border: 1.5px solid #1a1a1a;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.role-tab {
+  padding: 9px 32px;
+  font-size: 14px;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #888;
+  letter-spacing: 0.3px;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.role-tab.active {
+  background-color: #1a1a1a;
+  color: #fff;
+  border-radius: 50px;
+}
+
+.role-tab:not(.active):hover {
+  color: #1a1a1a;
+}
+
+/* ============================================
+   ROLE BADGE
+============================================ */
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.admin-badge {
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+/* ============================================
+   AUTH LAYOUT
+============================================ */
+.auth-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 80px;
+  align-items: start;
+}
+
+.register-layout {
+  grid-template-columns: 1fr 320px;
+}
+
+/* ============================================
+   FORM SECTION
+============================================ */
+.form-section {
+  max-width: 420px;
+}
+
+.page-title {
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 28px;
+  color: #1a1a1a;
+  line-height: 1;
+}
+
+/* ============================================
+   FORM FIELDS
+============================================ */
+.form-group {
+  margin-bottom: 28px;
+  position: relative;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.field-label {
+  display: block;
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.field-input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #aaa;
+  outline: none;
+  padding: 6px 0;
+  font-size: 15px;
+  color: #1a1a1a;
+  background: transparent;
+  transition: border-color 0.2s ease;
+}
+
+.field-input:focus {
+  border-bottom-color: #1a1a1a;
+}
+
+/* Admin-only field highlight */
+.admin-field {
+  border-bottom-color: #1a1a1a;
+  border-bottom-width: 2px;
+}
+
+/* ============================================
+   REMEMBER ME CHECKBOX
+============================================ */
+.form-options {
+  margin-bottom: 18px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.checkbox-input {
+  display: none;
+}
+
+.checkbox-custom {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #555;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.checkbox-input:checked + .checkbox-custom {
+  background-color: #1a1a1a;
+  border-color: #1a1a1a;
+}
+
+/* ============================================
+   PASSWORD HELP
+============================================ */
+.password-help {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  cursor: pointer;
+}
+
+.password-help:hover {
+  text-decoration: underline;
+}
+
+/* ============================================
+   SUBMIT BUTTON
+============================================ */
+.submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 48px;
+  background-color: #1a1a1a;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  letter-spacing: 0.2px;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+  min-width: 160px;
+  margin-bottom: 24px;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #333;
+  transform: translateY(-1px);
+}
+
+.submit-btn:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+/* Admin button style — dark navy */
+.submit-btn.admin-btn {
+  background-color: #0f172a;
+}
+
+.submit-btn.admin-btn:hover:not(:disabled) {
+  background-color: #1e293b;
+}
+
+/* ============================================
+   SWITCH TEXT
+============================================ */
+.switch-text {
+  font-size: 14px;
+}
+
+.switch-link {
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.switch-link:hover {
+  opacity: 0.6;
+}
+
+/* ============================================
+   SIDEBAR CARD
+============================================ */
+.order-card {
+  background-color: #1a1a1a;
+  color: #fff;
+  border-radius: 8px;
+  padding: 36px 32px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: background-color 0.3s ease;
+}
+
+/* Admin card — dark navy */
+.order-card.admin-card {
+  background-color: #0f172a;
+}
+
+.order-title {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.order-desc {
+  font-size: 14px;
+  color: #ccc;
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+/* Admin perks list */
+.admin-perks {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.admin-perks li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+.order-btn {
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 28px;
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.order-btn:hover {
+  background-color: #fff;
+  color: #1a1a1a;
+}
+
+/* ============================================
+   RESPONSIVE — Tablet
+============================================ */
+@media (max-width: 900px) {
+  .page-container {
+    padding: 32px 20px 60px;
+  }
+
+  .auth-layout,
+  .register-layout {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .form-section {
+    max-width: 100%;
+  }
+  .order-card {
+    max-width: 480px;
+  }
+}
+
+/* ============================================
+   RESPONSIVE — Mobile
+============================================ */
+@media (max-width: 600px) {
+  .page-container {
+    padding: 24px 16px 48px;
+  }
+  .page-title {
+    font-size: 30px;
+    margin-bottom: 22px;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .submit-btn {
+    width: 100%;
+  }
+  .order-card {
+    padding: 28px 24px 32px;
+  }
+  .order-btn {
+    width: 100%;
+  }
+
+  .role-tab {
+    padding: 9px 24px;
+    font-size: 13px;
+  }
+}

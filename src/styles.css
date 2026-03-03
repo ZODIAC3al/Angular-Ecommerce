@@ -1,1 +1,333 @@
-/* You can add global styles to this file, and also import other style files */
+/* ══════════════════════════════════════════
+   THEME VARIABLES
+══════════════════════════════════════════ */
+:root,
+[data-theme='dark'] {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-surface: #1e293b;
+  --bg-card: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border-color: #334155;
+  --input-bg: #0f172a;
+  --input-border: #475569;
+  --input-text: #f1f5f9;
+  --input-placeholder: #64748b;
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme='light'] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border-color: #e2e8f0;
+  --input-bg: #ffffff;
+  --input-border: #cbd5e1;
+  --input-text: #0f172a;
+  --input-placeholder: #94a3b8;
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ══════════════════════════════════════════
+   BASE — html + body
+══════════════════════════════════════════ */
+html,
+body {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  min-height: 100%;
+}
+
+/* ══════════════════════════════════════════
+   BOOTSTRAP OVERRIDES (for bg-white, bg-light etc.)
+══════════════════════════════════════════ */
+.bg-white,
+.bg-light {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+}
+
+/* ══════════════════════════════════════════
+   ALL INPUTS & SELECTS (global)
+══════════════════════════════════════════ */
+input,
+textarea,
+select,
+.form-control,
+.form-select,
+.field-input,
+.form-input,
+.search-input,
+.newsletter-input {
+  background-color: var(--input-bg) !important;
+  border-color: var(--input-border) !important;
+  color: var(--input-text) !important;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+input::placeholder,
+textarea::placeholder,
+.form-control::placeholder,
+.field-input::placeholder,
+.form-input::placeholder,
+.search-input::placeholder,
+.newsletter-input::placeholder {
+  color: var(--input-placeholder) !important;
+}
+
+/* ══════════════════════════════════════════
+   DASHBOARD — dash-wrapper, stat-card, chart-card etc.
+══════════════════════════════════════════ */
+.dash-wrapper,
+.dash-body {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.stat-card,
+.chart-card,
+.cat-breakdown-card,
+.top-products-card,
+.activity-card,
+.admin-footer {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: var(--shadow) !important;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.card-title,
+.card-sub,
+.stat-value,
+.stat-label,
+.welcome-title,
+.welcome-greeting,
+.welcome-sub,
+.cat-row-name,
+.cat-row-meta,
+.cat-row-revenue,
+.prod-name,
+.prod-cat,
+.prod-revenue,
+.prod-sales,
+.activity-msg,
+.activity-time,
+.footer-title,
+.footer-sub {
+  color: var(--text-primary) !important;
+}
+
+/* ══════════════════════════════════════════
+   HOME PAGE — product-card, featured-card, shop-card etc.
+══════════════════════════════════════════ */
+.product-card,
+.featured-card,
+.shop-card,
+.section {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.section {
+  background-color: var(--bg-primary) !important;
+}
+
+.product-name,
+.product-category,
+.product-price,
+.featured-name,
+.shop-name,
+.shop-location,
+.shop-product-name,
+.shop-product-price,
+.section-title {
+  color: var(--text-primary) !important;
+}
+
+/* ══════════════════════════════════════════
+   PRODUCTS PAGE — artisan-card, filter-pill etc.
+══════════════════════════════════════════ */
+.artisan-card,
+.add-product-card,
+.dropdown-menu-custom {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: var(--shadow) !important;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.shop-container {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+.filter-pill {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.dropdown-item-custom {
+  color: var(--text-primary) !important;
+}
+
+.dropdown-item-custom:hover {
+  background-color: var(--bg-secondary) !important;
+}
+
+/* ══════════════════════════════════════════
+   CATEGORIES PAGE — cat-card, prod-card, panel
+══════════════════════════════════════════ */
+.page-wrapper,
+.page-body,
+.page-header {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.cat-card,
+.prod-card,
+.products-panel,
+.panel-header {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: var(--shadow) !important;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.cat-name,
+.cat-meta,
+.cat-count,
+.cat-avg,
+.panel-title,
+.panel-sub,
+.prod-category,
+.prod-name,
+.page-title,
+.page-sub,
+.breadcrumb a,
+.breadcrumb span {
+  color: var(--text-primary) !important;
+}
+
+/* ══════════════════════════════════════════
+   PROFILE PAGE
+══════════════════════════════════════════ */
+.profile-body {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+.card {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.info-label,
+.info-value,
+.form-label,
+.card-title,
+.tab-btn {
+  color: var(--text-primary) !important;
+}
+
+.tabs-nav {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-color) !important;
+}
+
+.tab-content {
+  background-color: var(--bg-primary) !important;
+}
+
+/* ══════════════════════════════════════════
+   AUTH PAGE — page-container, form-section, order-card
+══════════════════════════════════════════ */
+.page-container,
+.auth-layout {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.form-section {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.page-title,
+.field-label,
+.switch-text,
+.password-help,
+.checkbox-text {
+  color: var(--text-primary) !important;
+}
+
+/* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+.footer {
+  background-color: #1a1a1a !important; /* footer keeps its dark look always */
+}
+
+/* ══════════════════════════════════════════
+   ERROR PAGE
+══════════════════════════════════════════ */
+.alert-danger {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border-color: #ef4444 !important;
+}
+
+/* ══════════════════════════════════════════
+   TEXT HELPERS
+══════════════════════════════════════════ */
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+label,
+a {
+  transition: color 0.3s ease;
+}

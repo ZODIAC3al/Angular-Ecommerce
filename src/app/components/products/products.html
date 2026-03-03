@@ -1,4 +1,4 @@
-
+<app-slider></app-slider>
 
 <div class="shop-container py-4 px-5">
   <div class="d-flex justify-content-between align-items-end mb-4">
@@ -8,12 +8,12 @@
     </div>
 
     <div class="total-price-display">
-      Total Price: <span class="fw-bold text-success">${{ totalPrice | number: '1.2-2' }}</span>
+      Total Price:
+      <span class="fw-bold text-success"> ${{ totalPrice | number: '1.2-2' }} </span>
     </div>
   </div>
 
   <div class="filter-bar-container d-flex flex-wrap align-items-center gap-3 mb-4">
-    <!-- Category Filter -->
     <div class="dropdown-wrapper">
       <button
         class="filter-pill"
@@ -42,6 +42,7 @@
         </div>
       }
     </div>
+
     <div class="dropdown-wrapper">
       <button
         class="filter-pill"
@@ -71,49 +72,139 @@
       }
     </div>
   </div>
-  <div class="products-grid">
-    @for (p of filteredProducts; track p.id) {
-      <div class="artisan-card" appCardHover>
-        <div class="image-box">
-          <img [src]="p.image" class="card-img-top" [alt]="p.name" />
-        </div>
 
-        <div class="card-body">
-          <h5 class="fw-bold">{{ p.name }}</h5>
+  <div class="products-grid ">
+    @if (filteredProducts.length === 0) {
+      <div class="text-center text-muted py-5">No products found.</div>
+    }
 
-          <p class="text-muted small mb-3">
-            @if (!p.showFullDesc) {
-              {{ p.description | threeWords }}...
-              <span
-                class="text-primary pointer"
-                style="cursor: pointer"
-                (click)="p.showFullDesc = true"
-                >read more</span
+    @for (p of filteredProducts; track p?.id || $index) {
+      @if (p) {
+        <div class="artisan-card" appCardHover>
+          <div class="image-box">
+            <img
+              [src]="p.image || 'assets/placeholder-image.png'"
+              (error)="p.image = 'assets/placeholder-image.png'"
+              class="card-img-top"
+              [alt]="p.name"
+            />
+          </div>
+
+          <div class="card-body d-flex flex-column">
+            <h5 class="fw-bold">{{ p.name }}</h5>
+
+            <p class="text-muted small mb-3">
+              @if (p.description && p.description.length > 25) {
+                @if (!p.showFullDesc) {
+                  {{ p.description | threeWords }}...
+                  <span
+                    class="text-primary"
+                    style="cursor: pointer"
+                    (click)="p.showFullDesc = true"
+                  >
+                    read more
+                  </span>
+                } @else {
+                  {{ p.description }}
+                  <span
+                    class="text-primary"
+                    style="cursor: pointer"
+                    (click)="p.showFullDesc = false"
+                  >
+                    show less
+                  </span>
+                }
+              } @else {
+                {{ p.description }}
+              }
+            </p>
+
+            <div class="mt-auto d-flex justify-content-between align-items-center pt-3 border-top">
+              <span class="fw-bold"> ${{ p.price | number: '1.2-2' }} </span>
+
+              <button
+                class="btn btn-sm"
+                [ngClass]="p.isBought ? 'btn-success' : 'btn-dark'"
+                (click)="toggleBuy(p)"
               >
-            } @else {
-              {{ p.description }}
-              <span
-                class="text-primary pointer"
-                style="cursor: pointer"
-                (click)="p.showFullDesc = false"
-                >show less</span
-              >
-            }
-          </p>
-
-          <div class="mt-auto d-flex justify-content-between align-items-center pt-3 border-top">
-            <span class="fw-bold">${{ p.price }}</span>
-
-            <button
-              class="btn btn-sm"
-              [ngClass]="p.isBought ? 'btn-success' : 'btn-dark'"
-              (click)="toggleBuy(p)"
-            >
-              {{ p.isBought ? '✓ Added' : 'Buy' }}
-            </button>
+                {{ p.isBought ? '✓ Added' : 'Buy' }}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      }
     }
+  </div>
+
+  <div class="add-product-card shadow-sm p-4 mb-5 rounded-4 bg-white">
+    <h5 class="fw-bold mb-3">Add New Product</h5>
+
+    <form (ngSubmit)="addProduct(productForm)" #productForm="ngForm">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label small text-muted"> Product Name </label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter product name"
+            [(ngModel)]="newProduct.name"
+            name="name"
+            required
+          />
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label small text-muted"> Price ($) </label>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="0.00"
+            [(ngModel)]="newProduct.price"
+            name="price"
+            required
+          />
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label small text-muted"> Category </label>
+          <select class="form-select" [(ngModel)]="newProduct.category" name="category" required>
+            <option value="" disabled>Select Category</option>
+            @for (cat of categories?.slice(1); track cat) {
+              <option [value]="cat">{{ cat }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label small text-muted"> Description </label>
+          <textarea
+            class="form-control"
+            rows="2"
+            placeholder="Enter description"
+            [(ngModel)]="newProduct.description"
+            name="description"
+            required
+          ></textarea>
+        </div>
+
+        <div class="col-md-9">
+          <label class="form-label small text-muted"> Image URL </label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Paste image URL"
+            [(ngModel)]="newProduct.image"
+            name="image"
+            required
+          />
+        </div>
+
+        <div class="col-md-3 d-flex align-items-end">
+          <button type="submit" class="btn btn-dark w-100" [disabled]="productForm.invalid">
+            + Add Item
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
 </div>

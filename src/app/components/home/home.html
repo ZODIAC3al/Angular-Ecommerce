@@ -1,1 +1,214 @@
-<p>home works!</p>
+<section class="hero">
+  <div class="hero-content">
+    <p class="hero-sub">SEMANTHA STEWRTZ</p>
+    <h1 class="hero-title">BRAND DAY</h1>
+    <div class="hero-offer">
+      <span class="hero-extra">EXTRA</span>
+      <span class="hero-pct">20% OFF</span>
+    </div>
+    <a href="#" class="hero-btn">SHOP NOW</a>
+  </div>
+  <button class="hero-arrow left">&#8249;</button>
+  <button class="hero-arrow right">&#8250;</button>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">
+      New Collection {{ selectedCategory !== 'All' ? '- ' + selectedCategory : '' }}
+    </h2>
+    <a href="#" class="view-all-btn" (click)="toggleShowAllNew($event)">
+      {{ showAllNew ? 'SHOW LESS' : 'VIEW ALL' }}
+    </a>
+  </div>
+
+  @if (isLoading) {
+    <div class="skeleton-grid">
+      @for (s of [1, 2, 3, 4]; track s) {
+        <div class="skeleton-card">
+          <div class="skeleton-img"></div>
+          <div class="skeleton-line short"></div>
+          <div class="skeleton-line"></div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="products-grid">
+      @for (product of newCollection; track product.id) {
+        <div class="product-card">
+          <span class="product-tag">New</span>
+          <p class="product-category">{{ product.category }}</p>
+          <p class="product-name">{{ product.name }}</p>
+          <div class="product-stars">
+            @for (s of stars(product.rating ?? 4); track $index) {
+              <span [class]="s ? 'star filled' : 'star'">★</span>
+            }
+          </div>
+          <div class="product-image-wrap">
+            <img
+              [src]="product.thumbnail"
+              [alt]="product.name"
+              class="product-img"
+              loading="lazy"
+            />
+            <button class="product-menu-btn">☰</button>
+          </div>
+          <p class="product-price">${{ product.price }}</p>
+        </div>
+      }
+
+      @if (newCollection.length === 0) {
+        <p>No products found in this category.</p>
+      }
+    </div>
+  }
+</section>
+
+<section class="promo-banners">
+  <div class="promo-banner purple">
+    <div class="promo-text">
+      <p class="promo-off">UP TO 70% OFF</p>
+      <h3 class="promo-heading">THE ENTIRE STORE!</h3>
+      <p class="promo-sub">MADE WITH LOVE<br />BY X TEMOS STUDIO</p>
+    </div>
+    <div class="promo-img-placeholder"></div>
+  </div>
+  <div class="promo-banner yellow">
+    <div class="promo-text">
+      <p class="promo-off">UP TO 70% OFF</p>
+      <h3 class="promo-heading">THE ENTIRE STORE!</h3>
+      <p class="promo-sub">MADE WITH LOVE<br />BY X TEMOS STUDIO</p>
+    </div>
+    <div class="promo-img-placeholder model"></div>
+  </div>
+</section>
+
+<section class="section featured-section">
+  <h2 class="section-title centered">Featured Products</h2>
+
+  @if (isLoading) {
+    <div class="featured-grid">
+      @for (s of [1, 2, 3]; track s) {
+        <div class="skeleton-card tall">
+          <div class="skeleton-img tall"></div>
+          <div class="skeleton-line short"></div>
+          <div class="skeleton-line"></div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="featured-grid">
+      @for (product of featuredProducts; track product.id) {
+        <div class="featured-card">
+          <div class="featured-img-wrap">
+            <img
+              [src]="product.thumbnail"
+              [alt]="product.name"
+              class="featured-img"
+              loading="lazy"
+            />
+          </div>
+          <div class="featured-info">
+            <p class="product-category">{{ product.category }}</p>
+            <p class="featured-name">{{ product.name }}</p>
+            <div class="product-stars">
+              @for (s of stars(product.rating ?? 4); track $index) {
+                <span [class]="s ? 'star filled' : 'star'">★</span>
+              }
+            </div>
+            <div class="featured-price-row">
+              <span class="featured-price">${{ product.price }}</span>
+              <span class="featured-old-price">${{ getDiscountedPrice(product.price) }}</span>
+            </div>
+            <button class="shop-now-btn">SHOP NOW</button>
+          </div>
+          <button class="product-menu-btn">☰</button>
+        </div>
+      }
+    </div>
+  }
+
+  <div class="view-all-center">
+    <a href="#" class="view-all-btn blue" (click)="toggleShowAllFeatured($event)">
+      {{ showAllFeatured ? 'SHOW LESS' : 'VIEW ALL' }}
+    </a>
+  </div>
+</section>
+
+<section class="hero-wide">
+  <div class="hero-wide-content">
+    <p class="promo-off white">UP TO 70% OFF</p>
+    <h2 class="hero-wide-title">THE ENTIRE STORE!</h2>
+    <p class="hero-wide-sub">MADE WITH LOVE<br />BY X TEMOS STUDIO</p>
+    <a href="#" class="hero-btn small">SHOP NOW</a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">Featured Shops</h2>
+    <a href="#" class="view-all-btn">VIEW ALL</a>
+  </div>
+
+  <div class="shops-grid">
+    @for (shop of featuredShops; track $index) {
+      <div class="shop-card">
+        <div class="shop-header">
+          <div class="shop-avatar">{{ shop.tag }}</div>
+          <div class="shop-info">
+            <p class="shop-name">{{ shop.name }}</p>
+            <p class="shop-location">{{ shop.location }}</p>
+            <div class="product-stars small">
+              @for (s of stars(shop.rating); track $index) {
+                <span [class]="s ? 'star filled' : 'star'">★</span>
+              }
+              <span class="shop-rating-num">{{ shop.rating }}</span>
+            </div>
+          </div>
+          <button class="shop-now-btn">SHOP NOW</button>
+        </div>
+
+        <div class="shop-products-grid">
+          @for (product of shop.products; track product.id) {
+            <div class="shop-product">
+              <p class="product-category">{{ product.category }}</p>
+              <p class="shop-product-name">{{ product.name }}</p>
+              <div class="shop-product-img-wrap">
+                <img
+                  [src]="product.thumbnail"
+                  [alt]="product.name"
+                  class="shop-product-img"
+                  loading="lazy"
+                />
+                <button class="product-menu-btn small">☰</button>
+              </div>
+              <p class="shop-product-price">${{ product.price }}</p>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<section class="categories-section">
+  <h2 class="section-title centered white">Top Categories</h2>
+  <div class="categories-grid">
+    @for (cat of categories; track $index) {
+      <div
+        class="category-item"
+        (click)="filterByCategory(cat.label)"
+        [style.opacity]="selectedCategory === cat.label ? '1' : '0.6'"
+        style="cursor: pointer; transition: opacity 0.2s"
+      >
+        <div class="category-icon">{{ cat.icon }}</div>
+        <p class="category-label">{{ cat.label }}</p>
+      </div>
+    }
+  </div>
+  <div class="view-all-center">
+    <a href="#" class="view-all-btn blue" (click)="filterByCategory('All', $event)"
+      >SHOW ALL CATEGORIES</a
+    >
+  </div>
+</section>

@@ -1,0 +1,169 @@
+<div class="page-wrapper">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="breadcrumb">
+        <a routerLink="/">Home</a>
+        <span class="sep">›</span>
+        <span>Categories</span>
+      </div>
+      <h1 class="page-title">Top Categories</h1>
+      <p class="page-sub">Explore our curated collection by category</p>
+    </div>
+  </div>
+
+  <div class="page-body">
+    @if (isLoading) {
+      <div class="cat-grid">
+        @for (s of [1, 2, 3, 4, 5, 6]; track s) {
+          <div class="cat-card skeleton-card">
+            <div class="sk sk-icon"></div>
+            <div class="sk sk-line med"></div>
+            <div class="sk sk-line short"></div>
+            <div class="sk sk-line shorter"></div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="cat-grid">
+        @for (group of categoryGroups; track group.name) {
+          <div
+            class="cat-card"
+            [class.active]="selectedCategory?.name === group.name"
+            (click)="selectCategory(group)"
+          >
+            <div class="cat-icon-wrap">
+              <span class="cat-emoji">{{ group.icon }}</span>
+            </div>
+            <h3 class="cat-name">{{ group.name }}</h3>
+            <div class="cat-meta">
+              <span class="cat-count">{{ group.products.length }} items</span>
+              <span class="cat-dot">·</span>
+              <span class="cat-avg">Avg ${{ group.avgPrice }}</span>
+            </div>
+
+            @if (group.topRated) {
+              <div class="cat-preview">
+                <img
+                  [src]="group.topRated.thumbnail"
+                  [alt]="group.topRated.name"
+                  class="cat-preview-img"
+                  loading="lazy"
+                />
+                <div class="cat-preview-info">
+                  <span class="cat-preview-badge">⭐ Top Rated</span>
+                  <p class="cat-preview-name">{{ group.topRated.name }}</p>
+                </div>
+              </div>
+            }
+
+            <div class="cat-cta">
+              <span>Browse</span>
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    @if (selectedCategory) {
+      <div class="products-panel">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <span class="panel-icon">{{ selectedCategory.icon }}</span>
+            <div>
+              <h2 class="panel-title">{{ selectedCategory.name }}</h2>
+              <p class="panel-sub">
+                {{ selectedCategory.products.length }} products &nbsp;·&nbsp; Avg ${{
+                  selectedCategory.avgPrice
+                }}
+              </p>
+            </div>
+          </div>
+          <div class="panel-controls">
+            <div class="search-wrap">
+              <svg
+                class="search-icon"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <input
+                class="search-input"
+                type="text"
+                placeholder="Search products…"
+                [(ngModel)]="searchQuery"
+              />
+            </div>
+            <button class="close-btn" (click)="closePanel()">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-products-grid">
+          @for (product of filteredProducts; track product.id) {
+            <div class="prod-card">
+              <div class="prod-img-wrap">
+                <img
+                  [src]="product.thumbnail"
+                  [alt]="product.name"
+                  class="prod-img"
+                  loading="lazy"
+                />
+                <span class="prod-tag">New</span>
+              </div>
+              <div class="prod-info">
+                <p class="prod-category">{{ product.category }}</p>
+                <p class="prod-name">{{ product.name }}</p>
+                <div class="prod-stars">
+                  @for (s of stars(product.rating ?? 0); track $index) {
+                    <span [class]="s ? 'star filled' : 'star'">★</span>
+                  }
+                  <span class="rating-val">{{ product.rating }}</span>
+                </div>
+                <div class="prod-footer">
+                  <span class="prod-price">${{ product.price }}</span>
+                  <button class="add-btn">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          }
+          @if (filteredProducts.length === 0) {
+            <div class="empty-state">
+              <span class="empty-icon">🔍</span>
+              <p>
+                No products match "<strong>{{ searchQuery }}</strong
+                >"
+              </p>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

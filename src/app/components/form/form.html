@@ -1,0 +1,287 @@
+<div class="page-container">
+  <div class="role-toggle-wrapper">
+    <div class="role-toggle">
+      <button
+        class="role-tab"
+        [class.active]="selectedRole === 'user'"
+        (click)="selectedRole = 'user'"
+      >
+        User
+      </button>
+      <button
+        class="role-tab"
+        [class.active]="selectedRole === 'admin'"
+        (click)="selectedRole = 'admin'"
+      >
+        Admin
+      </button>
+    </div>
+  </div>
+
+  @if (isLogin) {
+    <div class="auth-layout">
+      <div class="form-section">
+        <h1 class="page-title">
+          {{ selectedRole === 'admin' ? 'Admin Sign In.' : 'Sign In.' }}
+        </h1>
+
+        @if (selectedRole === 'admin') {
+          <div class="role-badge admin-badge">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            Admin Access
+          </div>
+        }
+
+        <form [formGroup]="LoginForm" (ngSubmit)="onLoginSubmit()">
+          <div class="form-group">
+            <label class="field-label">Email *</label>
+            <input type="email" formControlName="email" class="field-input" />
+          </div>
+
+          <div class="form-group">
+            <label class="field-label">Password *</label>
+            <input type="password" formControlName="password" class="field-input" />
+          </div>
+
+          <div class="form-options">
+            <label class="checkbox-label">
+              <input type="checkbox" class="checkbox-input" />
+              <span class="checkbox-custom"></span>
+              <span class="checkbox-text">Remember me</span>
+            </label>
+          </div>
+
+          <p class="password-help">Password Help?</p>
+
+          <button
+            type="submit"
+            class="submit-btn"
+            [class.admin-btn]="selectedRole === 'admin'"
+            [disabled]="LoginForm.invalid"
+          >
+            {{ selectedRole === 'admin' ? 'Admin Sign In' : 'Sign In' }}
+          </button>
+        </form>
+
+        <p class="switch-text">
+          Don't have an account?
+          <span class="switch-link" (click)="onIsRigester()">Create One Now</span>
+        </p>
+      </div>
+
+      <div class="order-card" [class.admin-card]="selectedRole === 'admin'">
+        @if (selectedRole === 'admin') {
+          <h2 class="order-title">Admin Dashboard</h2>
+          <p class="order-desc">
+            Sign in with your admin credentials to access the control panel, manage users, and
+            configure system settings.
+          </p>
+          <ul class="admin-perks">
+            <li>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              Manage all users
+            </li>
+            <li>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              View analytics &amp; reports
+            </li>
+            <li>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              Configure system settings
+            </li>
+          </ul>
+        } @else {
+          <h2 class="order-title">Looking for your order?</h2>
+          <p class="order-desc">
+            See your order even if you are not a registered user. Enter the order number and your
+            last name.
+          </p>
+        }
+        <button class="order-btn">
+          {{ selectedRole === 'admin' ? 'Go to Dashboard' : 'Find Your Order' }}
+        </button>
+      </div>
+    </div>
+  } @else {
+    <div class="auth-layout register-layout">
+      <div class="form-section">
+        <h1 class="page-title">
+          {{ selectedRole === 'admin' ? 'Admin Account.' : 'Create Account.' }}
+        </h1>
+
+        @if (selectedRole === 'admin') {
+          <div class="role-badge admin-badge">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            Admin Registration
+          </div>
+        }
+
+        <form [formGroup]="RegisterForm" (ngSubmit)="onRigesterSubmit()">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="field-label">First Name *</label>
+              <input type="text" formControlName="firstName" class="field-input" />
+            </div>
+            <div class="form-group">
+              <label class="field-label">Last Name *</label>
+              <input type="text" formControlName="lastName" class="field-input" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="field-label">Email *</label>
+            <input type="email" formControlName="email" class="field-input" />
+          </div>
+
+          <div class="form-group">
+            <label class="field-label">Password *</label>
+            <input type="password" formControlName="password" class="field-input" />
+          </div>
+
+          <div class="form-group">
+            <label class="field-label">Confirm Password *</label>
+            <input type="password" formControlName="confirmPassword" class="field-input" />
+          </div>
+
+          @if (selectedRole === 'admin') {
+            <div class="form-group">
+              <label class="field-label">Admin Secret Key *</label>
+              <input
+                type="password"
+                formControlName="adminKey"
+                class="field-input admin-field"
+                placeholder="Enter your admin key"
+              />
+            </div>
+          }
+
+          <button
+            type="submit"
+            class="submit-btn"
+            [class.admin-btn]="selectedRole === 'admin'"
+            [disabled]="RegisterForm.invalid"
+          >
+            {{ selectedRole === 'admin' ? 'Create Admin Account' : 'Create Account' }}
+          </button>
+        </form>
+
+        <p class="switch-text">
+          Already have an account?
+          <span class="switch-link" (click)="onIsRigester()">Sign In</span>
+        </p>
+      </div>
+
+      <div class="order-card" [class.admin-card]="selectedRole === 'admin'">
+        @if (selectedRole === 'admin') {
+          <h2 class="order-title">Admin Privileges</h2>
+          <p class="order-desc">
+            Admin accounts require a secret key provided by your system administrator.
+          </p>
+          <ul class="admin-perks">
+            <li>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              Full dashboard access
+            </li>
+            <li>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              User management
+            </li>
+            <li>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              System configuration
+            </li>
+          </ul>
+        } @else {
+          <h2 class="order-title">Already a member?</h2>
+          <p class="order-desc">
+            Sign in to your existing account to track orders, save your wishlist, and access
+            exclusive member benefits.
+          </p>
+        }
+        <button class="order-btn" (click)="onIsRigester()">
+          {{ selectedRole === 'admin' ? 'Admin Sign In' : 'Sign In' }}
+        </button>
+      </div>
+    </div>
+  }
+</div>

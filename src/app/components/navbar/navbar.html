@@ -1,0 +1,96 @@
+<nav class="navbar navbar-expand-lg shadow-sm sticky-top theme-navbar">
+  <div class="container">
+    <a class="navbar-brand fw-bold" routerLink="/"> 🛍 MyStore </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      (click)="isNavbarCollapsed = !isNavbarCollapsed"
+      aria-controls="mainNavbar"
+      [attr.aria-expanded]="!isNavbarCollapsed"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div [ngClass]="{ 'collapse navbar-collapse': true, show: !isNavbarCollapsed }" id="mainNavbar">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/products" routerLinkActive="active">Products</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/categories"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Categories</a
+          >
+        </li>
+
+        @if (!authService.isLoggedIn()) {
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/auth"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >Login / Register</a
+            >
+          </li>
+        }
+
+        @if (authService.isLoggedIn()) {
+          <li class="nav-item">
+            @if (authService.isAdmin()) {
+              <a routerLink="/admin/dashboard" class="nav-link" routerLinkActive="active"
+                >Admin Dashboard</a
+              >
+            } @else {
+              <a routerLink="/profile" class="nav-link" routerLinkActive="active">My Profile</a>
+            }
+          </li>
+          <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+            <button (click)="onLogout()" class="btn btn-sm btn-outline-danger">Logout</button>
+          </li>
+        }
+
+        <!-- 🌙☀️ Theme Toggle -->
+        <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+          <button
+            class="theme-toggle-btn"
+            (click)="toggleTheme()"
+            [attr.aria-label]="isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
+            [title]="isDarkMode() ? 'Light mode' : 'Dark mode'"
+          >
+            <span class="toggle-track">
+              <span class="toggle-icon sun">☀️</span>
+              <span class="toggle-icon moon">🌙</span>
+              <span class="toggle-thumb" [class.dark]="isDarkMode()"></span>
+            </span>
+          </button>
+        </li>
+      </ul>
+
+      <form class="d-flex ms-lg-3 mt-3 mt-lg-0" (ngSubmit)="onSearch()">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search products..."
+          name="search"
+          [(ngModel)]="searchTerm"
+        />
+        <button class="btn btn-outline-light" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>

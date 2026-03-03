@@ -1,0 +1,292 @@
+<div class="dash-wrapper">
+  <!-- ═══ BODY ═══ -->
+  <div class="dash-body">
+    <!-- Welcome Banner -->
+    <div class="welcome-banner">
+      <div class="welcome-text">
+        <p class="welcome-greeting">
+          {{ greeting }}, <strong>{{ currentUser?.firstName }}</strong> 👋
+        </p>
+        <h1 class="welcome-title">Admin Dashboard</h1>
+        <p class="welcome-sub">Here's what's happening in your store today.</p>
+      </div>
+      <div class="welcome-actions">
+        <a routerLink="/categories" class="action-btn secondary">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <path d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          Categories
+        </a>
+        <a routerLink="/profile" class="action-btn primary">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          My Profile
+        </a>
+      </div>
+    </div>
+
+    <!-- ══ STAT CARDS ══ -->
+    @if (isLoading) {
+      <div class="stat-grid">
+        @for (s of [1, 2, 3, 4, 5, 6]; track s) {
+          <div class="stat-card skeleton">
+            <div class="sk sk-icon"></div>
+            <div class="sk sk-line med"></div>
+            <div class="sk sk-line short"></div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="stat-grid">
+        @for (card of statCards; track card.label; let i = $index) {
+          <div
+            class="stat-card"
+            [style.--card-color]="card.color"
+            [style.animation-delay]="i * 0.07 + 's'"
+          >
+            <div class="stat-header">
+              <div class="stat-icon-wrap">
+                <span class="stat-icon">{{ card.icon }}</span>
+              </div>
+              <div
+                class="stat-change"
+                [class.positive]="card.change > 0"
+                [class.neutral]="card.change === 0"
+              >
+                @if (card.change > 0) {
+                  <svg
+                    width="10"
+                    height="10"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                  >
+                    <polyline points="18 15 12 9 6 15" />
+                  </svg>
+                  {{ card.change }}%
+                } @else if (card.change === 0) {
+                  —
+                }
+              </div>
+            </div>
+            <p class="stat-value">{{ card.value }}</p>
+            <p class="stat-label">{{ card.label }}</p>
+            <div class="stat-bar">
+              <div class="stat-bar-fill"></div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- ══ MAIN GRID ══ -->
+    <div class="main-grid">
+      <!-- Revenue Chart -->
+      <div class="chart-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Monthly Revenue</h2>
+            <p class="card-sub">Last 7 months performance</p>
+          </div>
+          <div class="chart-legend">
+            <span class="legend-dot"></span>
+            <span class="legend-label">Revenue (k$)</span>
+          </div>
+        </div>
+
+        @if (!isLoading) {
+          <div class="bar-chart">
+            @for (val of revenueData; track $index; let i = $index) {
+              <div class="bar-group">
+                <div class="bar-tooltip">${{ val }}k</div>
+                <div
+                  class="bar"
+                  [style.height.%]="barHeight(val)"
+                  [style.animation-delay]="i * 0.1 + 's'"
+                  [class.bar-highlight]="val === chartMax - 10"
+                ></div>
+                <span class="bar-label">{{ revenueLabels[i] }}</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Category Breakdown -->
+      <div class="cat-breakdown-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Category Breakdown</h2>
+            <p class="card-sub">Revenue by category</p>
+          </div>
+        </div>
+
+        @if (isLoading) {
+          <div class="sk-list">
+            @for (s of [1, 2, 3, 4]; track s) {
+              <div class="sk-row">
+                <div class="sk sk-dot"></div>
+                <div class="sk sk-line med"></div>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="cat-list">
+            @for (cat of categoryStats; track cat.name) {
+              <div class="cat-row">
+                <div class="cat-row-left">
+                  <div
+                    class="cat-emoji-wrap"
+                    [style.background]="getCategoryColor(cat.name) + '1a'"
+                  >
+                    <span>{{ cat.icon }}</span>
+                  </div>
+                  <div class="cat-row-info">
+                    <p class="cat-row-name">{{ cat.name | titlecase }}</p>
+                    <p class="cat-row-meta">{{ cat.count }} products · Avg ${{ cat.avgPrice }}</p>
+                  </div>
+                </div>
+                <div class="cat-row-right">
+                  <p class="cat-row-revenue">${{ cat.revenue | number }}</p>
+                  <span
+                    class="cat-pct-badge"
+                    [style.background]="getCategoryColor(cat.name) + '20'"
+                    [style.color]="getCategoryColor(cat.name)"
+                  >
+                    {{ cat.pct }}%
+                  </span>
+                </div>
+              </div>
+              <div class="cat-progress-bar">
+                <div
+                  class="cat-progress-fill"
+                  [style.width.%]="cat.pct"
+                  [style.background]="getCategoryColor(cat.name)"
+                ></div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- ══ BOTTOM GRID ══ -->
+    <div class="bottom-grid">
+      <!-- Top Products -->
+      <div class="top-products-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Top Products</h2>
+            <p class="card-sub">By revenue this month</p>
+          </div>
+          <a routerLink="/products" class="view-link">View all →</a>
+        </div>
+
+        @if (isLoading) {
+          <div class="sk-list">
+            @for (s of [1, 2, 3, 4, 5]; track s) {
+              <div class="sk-row prod">
+                <div class="sk sk-img"></div>
+                <div style="flex: 1">
+                  <div class="sk sk-line med"></div>
+                  <div class="sk sk-line short" style="margin-top: 6px"></div>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="prod-list">
+            @for (item of topProducts; track item.product.id; let i = $index) {
+              <div class="prod-row">
+                <span
+                  class="prod-rank"
+                  [class.gold]="i === 0"
+                  [class.silver]="i === 1"
+                  [class.bronze]="i === 2"
+                >
+                  {{ i + 1 }}
+                </span>
+                <div class="prod-img-wrap">
+                  <img [src]="item.product.thumbnail" [alt]="item.product.name" loading="lazy" />
+                </div>
+                <div class="prod-info">
+                  <p class="prod-name">{{ item.product.name }}</p>
+                  <p class="prod-cat">{{ item.product.category }}</p>
+                </div>
+                <div class="prod-stats">
+                  <p class="prod-revenue">${{ item.revenue | number: '1.0-0' }}</p>
+                  <p class="prod-sales">{{ item.sales }} sold</p>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="activity-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Recent Activity</h2>
+            <p class="card-sub">Latest store events</p>
+          </div>
+          <div class="live-dot">
+            <span class="live-pulse"></span>
+            Live
+          </div>
+        </div>
+
+        <div class="activity-list">
+          @for (event of recentActivity; track $index; let i = $index) {
+            <div class="activity-row" [style.animation-delay]="i * 0.08 + 's'">
+              <div class="activity-icon-wrap" [style.background]="event.color + '18'">
+                <span class="activity-icon">{{ event.icon }}</span>
+              </div>
+              <div class="activity-info">
+                <p class="activity-msg">{{ event.message }}</p>
+                <p class="activity-time">{{ event.time }}</p>
+              </div>
+              <div class="activity-dot" [style.background]="event.color"></div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ADMIN INFO FOOTER ══ -->
+    <div class="admin-footer">
+      <div class="admin-footer-left">
+        <span class="footer-icon">🔐</span>
+        <div>
+          <p class="footer-title">Admin Access Only</p>
+          <p class="footer-sub">
+            You're logged in as
+            <strong>{{ currentUser?.firstName }} {{ currentUser?.lastName }}</strong> ·
+            {{ currentUser?.email }}
+          </p>
+        </div>
+      </div>
+      <div class="admin-footer-actions">
+        <a routerLink="/profile" class="footer-link">Edit Profile</a>
+        <button class="footer-logout" (click)="logout()">Sign Out</button>
+      </div>
+    </div>
+  </div>
+</div>
