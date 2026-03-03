@@ -387,3 +387,139 @@
     font-size: 13px;
   }
 }
+/* ============================================
+   THEME OVERRIDES — dark / light mode
+============================================ */
+
+/* Page background + default text */
+[data-theme='dark'] :host,
+[data-theme='dark'] .page-container {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+[data-theme='light'] :host,
+[data-theme='light'] .page-container {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Page title */
+[data-theme='dark'] .page-title {
+  color: var(--text-primary) !important;
+}
+[data-theme='light'] .page-title {
+  color: var(--text-primary) !important;
+}
+
+/* Field labels */
+[data-theme='dark'] .field-label {
+  color: var(--text-secondary) !important;
+}
+[data-theme='light'] .field-label {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme='dark'] .field-input {
+  border: none !important;
+  border-bottom: 1px solid #475569 !important;
+  color: var(--text-primary) !important;
+  background: transparent !important;
+}
+
+[data-theme='dark'] .field-input:focus {
+  border-bottom-color: #94a3b8 !important;
+}
+
+[data-theme='dark'] .admin-field {
+  border-bottom-color: #60a5fa !important;
+  border-bottom-width: 2px !important;
+}
+
+[data-theme='light'] .field-input {
+  color: var(--text-primary) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+[data-theme='light'] .field-input:focus {
+  border-bottom-color: var(--text-primary) !important;
+}
+
+/* Role toggle border + inactive tab text */
+[data-theme='dark'] .role-toggle {
+  border-color: var(--border-color) !important;
+}
+[data-theme='dark'] .role-tab {
+  color: var(--text-muted) !important;
+}
+[data-theme='dark'] .role-tab.active {
+  background-color: var(--text-primary) !important;
+  color: var(--bg-primary) !important;
+}
+[data-theme='dark'] .role-tab:not(.active):hover {
+  color: var(--text-primary) !important;
+}
+
+[data-theme='light'] .role-toggle {
+  border-color: #1a1a1a !important;
+}
+[data-theme='light'] .role-tab {
+  color: #888 !important;
+}
+[data-theme='light'] .role-tab.active {
+  background-color: #1a1a1a !important;
+  color: #fff !important;
+}
+
+/* Switch text + link */
+[data-theme='dark'] .switch-text {
+  color: var(--text-secondary) !important;
+}
+[data-theme='light'] .switch-text {
+  color: var(--text-primary) !important;
+}
+
+[data-theme='dark'] .switch-link {
+  color: var(--text-primary) !important;
+}
+[data-theme='light'] .switch-link {
+  color: #1a1a1a !important;
+}
+
+/* Password help */
+[data-theme='dark'] .password-help {
+  color: var(--text-primary) !important;
+}
+[data-theme='light'] .password-help {
+  color: #1a1a1a !important;
+}
+
+/* Checkbox border */
+[data-theme='dark'] .checkbox-custom {
+  border-color: var(--border-color) !important;
+}
+[data-theme='light'] .checkbox-custom {
+  border-color: #555 !important;
+}
+
+[data-theme='dark'] .checkbox-text {
+  color: var(--text-primary) !important;
+}
+[data-theme='light'] .checkbox-text {
+  color: #1a1a1a !important;
+}
+
+/* Submit button in dark mode — invert to stay readable */
+[data-theme='dark'] .submit-btn {
+  background-color: var(--text-primary) !important;
+  color: var(--bg-primary) !important;
+}
+[data-theme='dark'] .submit-btn:hover:not(:disabled) {
+  background-color: #cbd5e1 !important;
+}
+[data-theme='dark'] .submit-btn.admin-btn {
+  background-color: #60a5fa !important;
+  color: #0f172a !important;
+}
+
+/* Sidebar card stays dark always — no change needed */
+/* order-card, order-title, order-desc already hardcoded dark ✅ */

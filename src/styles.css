@@ -283,7 +283,7 @@ textarea::placeholder,
 }
 
 .form-section {
-  background-color: var(--bg-card) !important;
+
   color: var(--text-primary) !important;
   border-color: var(--border-color) !important;
 }
